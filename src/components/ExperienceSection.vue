@@ -1,46 +1,40 @@
 <script setup lang="ts">
 const experiences = [
   {
-    time: '2023 — 至今',
+    time: '2025.9 — 2026.8',
+    city: '杭州',
     role: '前端工程师',
-    company: '某互联网公司',
+    company: '东驰科技',
     points: [
-      '主导核心产品 Vue 3 大规模重构，引入 Vite 构建与 TypeScript 全量类型覆盖',
-      '从 0 搭建设计系统与组件库，支撑 6+ 业务线复用，暗色模式与无障碍全覆盖',
-      '推动 AI Coding 工作流在团队落地，需求→原型→测试的全链路交付效率提升 3~5 倍',
+      '负责公司核心 B 端产品的迭代与维护，以 Vue 2 为主力框架，支撑多条中后台业务线',
+      '深度实践 AI Coding，用 Codex 完成需求拆解、代码生成与自测，交付效率显著提升',
+      '维护 Node.js 接口服务，联动小程序端，打通完整业务闭环',
     ],
-    tags: ['Vue 3', 'TypeScript', '设计系统', 'AI Coding'],
+    tags: ['Vue 2', 'B 端中后台', 'Node.js', 'AI Coding'],
   },
   {
-    time: '2020 — 2023',
-    role: '前端开发工程师',
-    company: '某科技公司',
+    time: '2022.3 — 2025.8',
+    city: '杭州',
+    role: '前端工程师',
+    company: '微宏科技',
     points: [
-      '负责营销活动页与数据大屏开发，基于 Three.js / ECharts 实现实时可视化',
-      '主导性能优化专项，首屏 LCP 从 4.2s 降至 1.5s，核心页面通过 Core Web Vitals 全绿',
-      '沉淀公共工具链与 CI 流水线，实现自动化构建、预览与一键回滚',
+      '负责 B 端管理系统与业务支撑平台开发，Vue 2 为主，配套 Node.js 提供接口服务',
+      '沉淀团队组件库与工程规范，覆盖多条业务线的中后台页面复用',
+      '主导性能优化专项，列表页加载与交互流畅度明显提升，核心页面通过 Core Web Vitals 全绿',
+      '独立交付小程序与 H5 业务，推进前后端联调与自动化上线',
     ],
-    tags: ['Three.js', 'ECharts', '性能优化', 'CI/CD'],
+    tags: ['Vue 2', 'Node.js', '小程序', '中后台'],
   },
   {
-    time: '2018 — 2020',
-    role: 'Web 开发工程师',
-    company: '初创团队',
+    time: '2020.10 — 2022.3',
+    city: '郑州',
+    role: '前端工程师',
+    company: '郑州大方软件',
     points: [
-      '从 0 到 1 构建官网、营销页与小程序，独立负责前后端联调与部署上线',
-      '维护高并发活动页，峰值日活突破 50 万，QPS 压测通过率稳定',
+      '负责企业级系统前端开发，Vue 2 技术栈，独立完成多个业务模块的页面与交互',
+      '参与性能优化与代码重构，统一组件封装，提升研发效率与页面稳定性',
     ],
-    tags: ['JavaScript', '小程序', '部署'],
-  },
-  {
-    time: '2016 — 2018',
-    role: '前端学徒 → 独立开发者',
-    company: '个人项目起步',
-    points: [
-      '自学 HTML/CSS/JavaScript，从个人博客与工具脚本起步，独立完成 30+ 小型项目练手',
-      '第一次把项目部署上线并获得真实用户反馈，从此爱上「产品落地」的完整链路',
-    ],
-    tags: ['JavaScript', 'HTML/CSS', '开源'],
+    tags: ['Vue 2', 'JavaScript', '系统研发'],
   },
 ]
 </script>
@@ -69,6 +63,7 @@ const experiences = [
           <span class="tl-dot" aria-hidden="true"></span>
           <div class="tl-card">
             <span class="tl-time">{{ e.time }}</span>
+            <span class="tl-city">{{ e.city }}</span>
             <h3 class="tl-role">{{ e.role }}</h3>
             <p class="tl-company">{{ e.company }}</p>
             <ul class="tl-points">
@@ -82,7 +77,11 @@ const experiences = [
       </div>
 
       <p class="exp-note" data-reveal style="--reveal-delay: 480ms">
-        <span class="mono">// 完整履历</span>可联系我索取 PDF 或在线版本
+        <span class="mono">// 完整履历</span>
+        <a class="btn btn-primary exp-pdf" href="#" download>
+          下载 PDF 简历
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        </a>
       </p>
     </div>
   </section>
@@ -193,6 +192,19 @@ const experiences = [
   color: var(--cyan);
 }
 
+.tl-city {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  margin-left: 10px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--violet-soft);
+  background: var(--violet-soft);
+}
+
 .tl-role {
   font-size: 20px;
   font-weight: 700;
@@ -252,8 +264,12 @@ const experiences = [
 }
 
 .exp-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
   margin-top: 40px;
-  text-align: center;
   font-size: 13px;
   color: var(--text-faint);
 }
@@ -261,6 +277,11 @@ const experiences = [
 .exp-note .mono {
   font-family: var(--mono);
   color: var(--text-dim);
+}
+
+.exp-pdf {
+  padding: 10px 20px;
+  font-size: 13.5px;
 }
 
 /* ---- 移动端：线靠左、卡全宽 ---- */

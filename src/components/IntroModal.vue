@@ -18,6 +18,22 @@ const show = ref(false)
 const leaving = ref(false)
 let closeTimer = 0
 
+// 滚动条宽度（锁定时用 padding-right 补偿，避免关闭后滚动条复现导致页面抖动）
+function getScrollbarWidth(): number {
+  return window.innerWidth - document.documentElement.clientWidth
+}
+
+function lockScroll() {
+  const pad = getScrollbarWidth()
+  document.body.style.overflow = 'hidden'
+  if (pad > 0) document.body.style.paddingRight = `${pad}px`
+}
+
+function unlockScroll() {
+  document.body.style.overflow = ''
+  document.body.style.paddingRight = ''
+}
+
 // 打开：立即渲染并锁定页面滚动；关闭：先播退出动画再卸载、解锁滚动
 watch(
   () => props.open,
@@ -26,13 +42,13 @@ watch(
     if (open) {
       leaving.value = false
       show.value = true
-      document.body.style.overflow = 'hidden'
+      lockScroll()
     } else if (show.value) {
       leaving.value = true
       closeTimer = window.setTimeout(() => {
         show.value = false
         leaving.value = false
-        document.body.style.overflow = ''
+        unlockScroll()
       }, 400)
     }
   },
@@ -76,7 +92,7 @@ onBeforeUnmount(() => {
   clearTimeout(closeTimer)
   clearTimeout(copyTimer)
   // 组件被整体卸载时确保不残留滚动锁
-  document.body.style.overflow = ''
+  unlockScroll()
 })
 </script>
 
@@ -102,13 +118,14 @@ onBeforeUnmount(() => {
         <p class="intro-role">前端工程师 · AI Coding 实践者</p>
 
         <p class="intro-bio">
-          5 年前端开发经验，Vue 技术栈为主。热爱把「炫酷的三维视觉」与「可用的产品逻辑」结合在一起，
-          用 Three.js 做交互可视化，用 GSAP 打磨动效。2022 年起深度实践 AI Coding，
-          把 Cursor、Copilot 与各类大模型接入完整研发链路，坚信 AI 是工程师最锋利的杠杆。
+          5 年工作经验（另有 1 年实习），长期参与 B 端中后台产品研发，以 Vue 技术栈为主，
+          配合 Node.js 与小程序完成完整业务闭环。2025 年起深度实践 AI Coding，
+          把 Codex、Claude 等大模型接入需求拆解、编码与测试的完整链路，
+          坚信 AI 是工程师最锋利的杠杆。
         </p>
 
         <div class="intro-tags">
-          <span>Vue 3</span><span>TypeScript</span><span>Three.js</span><span>AI Coding</span>
+          <span>Vue 2</span><span>Node.js</span><span>小程序</span><span>AI Coding</span>
         </div>
 
         <div class="intro-links">

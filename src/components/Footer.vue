@@ -17,7 +17,7 @@ const navLinks = [
   { id: 'hobbies', label: '爱好' },
 ]
 
-const stack = ['Vue 3', 'TypeScript', 'Three.js', 'Vite', 'AI Coding', 'GitHub Actions']
+const stack = ['Vue 2', 'Node.js', '小程序', 'B 端中后台', 'AI Coding', 'Codex']
 
 const socials = [
   {
@@ -83,7 +83,7 @@ function goTop() {
           <span class="footer-grad">酷的事情？</span>
         </h2>
         <p class="footer-sub">
-          无论是前端项目、AI 产品还是三维可视化，都欢迎聊聊。
+          无论是 B 端项目、小程序还是 AI Coding 实践，都欢迎聊聊。
         </p>
         <a class="btn btn-primary footer-mail" :href="`mailto:${EMAIL}`">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -129,6 +129,10 @@ function goTop() {
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 7l8-5H4l8 5zm0 2l-8-5v10h16V8l-8 5z"/></svg>
               {{ EMAIL }}
             </a>
+            <span class="footer-contact-link status">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              杭州 · 已离职，可随时到岗
+            </span>
           </div>
         </div>
       </div>
@@ -168,7 +172,7 @@ function goTop() {
         </button>
       </div>
 
-      <p class="footer-copy" data-reveal style="--reveal-delay: 160ms">
+      <p class="footer-copy">
         © 2026 王浩 · 本页面由
         <span class="mono">AI 编程完成</span>
         （Vue&nbsp;3 + Vite + TypeScript + Three.js）· GitHub：
@@ -313,6 +317,17 @@ function goTop() {
 .footer-contact-link:hover {
   color: var(--cyan);
   transform: translateX(3px);
+}
+
+/* 求职状态行：绿色强调 */
+.footer-contact-link.status {
+  color: var(--lime);
+  cursor: default;
+}
+
+.footer-contact-link.status:hover {
+  color: var(--lime);
+  transform: none;
 }
 
 @media (max-width: 720px) {

@@ -14,15 +14,7 @@ let galaxyGroup: THREE.Group
 let corePoints: THREE.Points
 let nebulaPoints: THREE.Points
 let centerGlow: THREE.Sprite
-
-interface Meteor {
-  parts: THREE.Sprite[] // 0 = 头部亮星，1..n = 拖尾光粒（渐小渐淡）
-  pos: THREE.Vector3
-  vel: THREE.Vector3
-  life: number
-  maxLife: number
-}
-const meteors: Meteor[] = []
+let starsGroup: THREE.Points
 
 const mouse = { x: 0, y: 0, px: 0, py: 0 }
 let reduced = false
@@ -34,6 +26,12 @@ let themeObserver: MutationObserver | null = null
 const DPR = Math.min(window.devicePixelRatio, 2)
 const isCoarse = window.matchMedia('(pointer: coarse)').matches
 const scale = isCoarse ? 0.5 : 1
+
+/* ---------- 向星系核心聚拢的星尘粒子 ---------- */
+const INFLOW_COUNT = Math.round(950 * scale)
+let inflowPoints: THREE.Points
+let inflowPos: THREE.BufferAttribute
+let inflowSpeed: Float32Array
 
 /* ---------- 工具 ---------- */
 
@@ -68,22 +66,45 @@ function randGauss(): number {
   return (Math.random() + Math.random() + Math.random()) / 3 - 0.5
 }
 
+/* ---------- 主题感知配色 ----------
+   暗色：白→青→紫霓虹，叠加混合（黑底增亮）；
+   亮色：换深青/深紫，正常混合，保证在浅灰底上依然清晰不至于隐形 */
+function themeIsLight(): boolean {
+  return document.documentElement.dataset.theme === 'light'
+}
+
+function galaxyPalette(light: boolean) {
+  return {
+    blend: light ? THREE.NormalBlending : THREE.AdditiveBlending,
+    white: light ? new THREE.Color('#2c7a97') : new THREE.Color('#ffffff'),
+    cyan: light ? new THREE.Color('#0e8ba8') : new THREE.Color('#00e5ff'),
+    violet: light ? new THREE.Color('#5a2fd6') : new THREE.Color('#7c4dff'),
+    pink: light ? new THREE.Color('#b81f56') : new THREE.Color('#f50057'),
+    star: light ? new THREE.Color('#5a6d80') : new THREE.Color('#ffffff'),
+    coreOpacity: light ? 0.92 : 0.95,
+    nebOpacity: light ? 0.55 : 0.34,
+    nebDim: light ? 0.55 : 0.35,
+    glowOpacity: light ? 0.42 : 0.55,
+  }
+}
+
+/* 亮度内插：t ∈ [0,1] → 白→青→紫；外层星云：紫→粉 */
+const lerp3 = (a: THREE.Color, b: THREE.Color, c: THREE.Color, t: number) => {
+  if (t < 0.5) return a.clone().lerp(b, t * 2)
+  return b.clone().lerp(c, (t - 0.5) * 2)
+}
+
 /* ---------- 星系：螺旋臂星云 + 亮核 ---------- */
 
 function buildGalaxy() {
   galaxyGroup = new THREE.Group()
+  const pal = galaxyPalette(themeIsLight())
 
   const glowTex = makeGlowTexture()
-  const cWhite = new THREE.Color('#ffffff')
-  const cCyan = new THREE.Color('#00e5ff')
-  const cViolet = new THREE.Color('#7c4dff')
-  const cPink = new THREE.Color('#f50057')
-
-  // 亮度内插：t ∈ [0,1] → 白→青→紫；外层星云：紫→粉
-  const lerp3 = (a: THREE.Color, b: THREE.Color, c: THREE.Color, t: number) => {
-    if (t < 0.5) return a.clone().lerp(b, t * 2)
-    return b.clone().lerp(c, (t - 0.5) * 2)
-  }
+  const cWhite = pal.white
+  const cCyan = pal.cyan
+  const cViolet = pal.violet
+  const cPink = pal.pink
 
   // ---- 核心亮核（贴近中心的密集粒子） ----
   const coreCount = Math.round(420 * scale)
@@ -117,9 +138,9 @@ function buildGalaxy() {
       map: glowTex,
       vertexColors: true,
       transparent: true,
-      opacity: 0.95,
+      opacity: pal.coreOpacity,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      blending: pal.blend,
       sizeAttenuation: true,
     }),
   )
@@ -145,7 +166,7 @@ function buildGalaxy() {
     )
     const t = Math.min(radius / nebRadiusMax, 1)
     const c = lerp3(cViolet, cViolet.clone().lerp(cPink, 0.4), cPink, t)
-    const dim = 0.35 + Math.random() * 0.35
+    const dim = pal.nebDim + Math.random() * 0.35
     nCol.set([c.r * dim, c.g * dim, c.b * dim], i * 3)
   }
   const nebGeo = new THREE.BufferGeometry()
@@ -158,9 +179,9 @@ function buildGalaxy() {
       map: glowTex,
       vertexColors: true,
       transparent: true,
-      opacity: 0.34,
+      opacity: pal.nebOpacity,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      blending: pal.blend,
       sizeAttenuation: true,
     }),
   )
@@ -170,9 +191,9 @@ function buildGalaxy() {
     new THREE.SpriteMaterial({
       map: makeHaloTexture(),
       transparent: true,
-      opacity: 0.55,
+      opacity: pal.glowOpacity,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      blending: pal.blend,
     }),
   )
   centerGlow.scale.set(8.5, 8.5, 1)
@@ -182,76 +203,58 @@ function buildGalaxy() {
   galaxyGroup.position.z = -3
 }
 
-/* ---------- 流星：头部亮星 + 粒子光尾（替代细线条） ---------- */
+/* ---------- 星尘聚拢：外圈粒子向亮核 (0,0,-1) 缓慢汇聚 ---------- */
 
-const METEOR_SEG = 9 // 每颗流星含头部共 9 个光粒
+function spawnInflow(i: number, arr: Float32Array) {
+  const r = 8 + Math.random() * 24
+  const th = Math.acos(2 * Math.random() - 1)
+  const ph = Math.random() * Math.PI * 2
+  const x = r * Math.sin(th) * Math.cos(ph)
+  const y = r * Math.cos(th) * 0.6 // 略压扁成盘状
+  const z = r * Math.sin(th) * Math.sin(ph)
+  arr.set([x, y, z], i * 3)
+  inflowSpeed[i] = 0.45 + Math.random() * 1.35
+}
 
-function buildMeteors() {
-  const count = 4
+function buildInflow() {
+  const pal = galaxyPalette(themeIsLight())
   const glowTex = makeGlowTexture()
-  const cHead = new THREE.Color('#ffffff')
-  const cTail = new THREE.Color('#7c4dff')
-
-  for (let m = 0; m < count; m++) {
-    const parts: THREE.Sprite[] = []
-    for (let i = 0; i < METEOR_SEG; i++) {
-      // 头部亮暖白，越到尾越偏紫且越小
-      const t = i / (METEOR_SEG - 1)
-      const color = cHead.clone().lerp(cTail, t * t * 0.85)
-      const sph = new THREE.Sprite(
-        new THREE.SpriteMaterial({
-          map: glowTex,
-          color,
-          transparent: true,
-          opacity: i === 0 ? 1 : Math.max(0.72 - i * 0.09, 0.16),
-          depthWrite: false,
-          blending: THREE.AdditiveBlending,
-        }),
-      )
-      const size = 0.4 - i * 0.032
-      sph.scale.set(size, size, 1)
-      scene.add(sph)
-      parts.push(sph)
-    }
-    meteors.push({
-      parts,
-      pos: new THREE.Vector3(),
-      vel: new THREE.Vector3(),
-      life: Math.random() * 6,
-      maxLife: 5 + Math.random() * 4,
-    })
-    spawnMeteor(meteors[meteors.length - 1])
+  const pos = new Float32Array(INFLOW_COUNT * 3)
+  const col = new Float32Array(INFLOW_COUNT * 3)
+  inflowSpeed = new Float32Array(INFLOW_COUNT)
+  for (let i = 0; i < INFLOW_COUNT; i++) {
+    spawnInflow(i, pos)
+    const r = Math.hypot(pos[i * 3], pos[i * 3 + 1], pos[i * 3 + 2])
+    const t = Math.min((r - 8) / 24, 1)
+    // 靠近核心泛白青，外圈渐紫，与星系主体同色系
+    const c = lerp3(pal.white, pal.cyan, pal.violet, t)
+    const dim = 0.55 + Math.random() * 0.45
+    col.set([c.r * dim, c.g * dim, c.b * dim], i * 3)
   }
-}
-
-function spawnMeteor(m: Meteor) {
-  const dir = new THREE.Vector3(
-    (Math.random() - 0.65) * 0.9,
-    0.4 + Math.random() * 0.6,
-    (Math.random() - 0.7) * 0.8,
-  ).normalize()
-  m.vel.copy(dir).multiplyScalar(1.1 + Math.random() * 0.6)
-  m.pos.set((Math.random() - 0.5) * 34, 10 + Math.random() * 10, -26 - Math.random() * 8)
-  m.life = 0
-  m.maxLife = 5 + Math.random() * 4
-  updateMeteor(m)
-}
-
-// 光粒按轨迹前后错开；头部在最前，尾部渐消失
-function updateMeteor(m: Meteor) {
-  for (let i = 0; i < m.parts.length; i++) {
-    const gap = i * i * 0.42 + i * 0.08
-    m.parts[i].position.set(
-      m.pos.x - m.vel.x * gap,
-      m.pos.y - m.vel.y * gap,
-      m.pos.z - m.vel.z * gap,
-    )
-  }
+  const geo = new THREE.BufferGeometry()
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3))
+  inflowPos = geo.attributes.position as THREE.BufferAttribute
+  geo.setAttribute('color', new THREE.BufferAttribute(col, 3))
+  inflowPoints = new THREE.Points(
+    geo,
+    new THREE.PointsMaterial({
+      size: 0.24,
+      map: glowTex,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.6,
+      depthWrite: false,
+      blending: pal.blend,
+      sizeAttenuation: true,
+    }),
+  )
+  galaxyGroup.add(inflowPoints)
 }
 
 /* ---------- 背景远星 ---------- */
 
 function buildStars() {
+  const pal = galaxyPalette(themeIsLight())
   const count = Math.round(600 * scale)
   const pos = new Float32Array(count * 3)
   for (let i = 0; i < count; i++) {
@@ -264,19 +267,45 @@ function buildStars() {
   }
   const geo = new THREE.BufferGeometry()
   geo.setAttribute('position', new THREE.BufferAttribute(pos, 3))
-  const stars = new THREE.Points(
+  starsGroup = new THREE.Points(
     geo,
     new THREE.PointsMaterial({
       size: 0.1,
       map: makeGlowTexture(),
-      color: 0xffffff,
+      color: pal.star,
       transparent: true,
       opacity: 0.4,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      blending: pal.blend,
     }),
   )
-  scene.add(stars)
+  scene.add(starsGroup)
+}
+
+/* ---------- 重建：主题切换时整体重配色 ---------- */
+
+function disposeObject3D(obj: THREE.Object3D | undefined) {
+  if (!obj) return
+  obj.traverse((o) => {
+    const p = o as THREE.Points
+    if (p.geometry) p.geometry.dispose()
+    const mat = p.material
+    if (Array.isArray(mat)) mat.forEach((m) => m.dispose())
+    else if (mat) mat.dispose()
+  })
+}
+
+function rebuild() {
+  if (disposed || !scene) return
+  scene.remove(galaxyGroup)
+  scene.remove(starsGroup)
+  disposeObject3D(galaxyGroup)
+  disposeObject3D(starsGroup)
+  buildGalaxy()
+  buildInflow()
+  buildStars()
+  scene.add(galaxyGroup)
+  if (reduced) renderer.render(scene, camera)
 }
 
 /* ---------- 主流程 ---------- */
@@ -318,15 +347,26 @@ function animate() {
   // 核心光晕呼吸
   ;(centerGlow.material as THREE.SpriteMaterial).opacity = 0.48 + Math.sin(t * 1.1) * 0.1
 
-  // 流星推进（粒子光尾）
-  for (const m of meteors) {
-    m.life += dt
-    if (m.life > m.maxLife || m.pos.z > 2) {
-      spawnMeteor(m)
-      continue
+  // 星尘聚拢：向亮核 (0,0,-1) 方向移动，入核后回到外圈重新生成
+  if (inflowPoints) {
+    const posAttr = inflowPos
+    const arr = posAttr.array as Float32Array
+    for (let i = 0; i < INFLOW_COUNT; i++) {
+      const ix = i * 3
+      const x = arr[ix]
+      const y = arr[ix + 1]
+      const z = arr[ix + 2] + 1
+      const r = Math.hypot(x, y, z)
+      if (r < 1.2) {
+        spawnInflow(i, arr)
+        continue
+      }
+      const k = (inflowSpeed[i] * dt) / r
+      arr[ix] -= x * k
+      arr[ix + 1] -= y * k
+      arr[ix + 2] -= z * k
     }
-    m.pos.addScaledVector(m.vel, dt)
-    updateMeteor(m)
+    posAttr.needsUpdate = true
   }
 
   camera.position.x += (mouse.px * 0.7 - camera.position.x) * 0.05
@@ -366,12 +406,6 @@ function init() {
   )
   camera.position.set(0, 0, 11)
 
-  buildGalaxy()
-  buildStars()
-  buildMeteors()
-
-  scene.add(galaxyGroup)
-
   window.addEventListener('pointermove', onPointerMove, { passive: true })
   window.addEventListener('resize', onResize)
 
@@ -384,9 +418,10 @@ function init() {
   )
   observer.observe(canvasEl.value)
 
-  // 亮色主题下调低粒子亮度
+  // 主题切换：重建星系并重配色（亮色用深色调 + 正常混合）
   const syncTheme = () => {
-    canvasEl.value?.classList.toggle('is-light', document.documentElement.dataset.theme === 'light')
+    canvasEl.value?.classList.toggle('is-light', themeIsLight())
+    rebuild()
   }
   themeObserver = new MutationObserver(syncTheme)
   themeObserver.observe(document.documentElement, {
@@ -398,8 +433,6 @@ function init() {
   if (!reduced) {
     timer = new THREE.Timer()
     animate()
-  } else {
-    renderer.render(scene, camera)
   }
 }
 
@@ -467,8 +500,8 @@ onBeforeUnmount(() => {
   }
 }
 
-/* 亮色主题下降低粒子在浅底上的抢眼程度 */
+/* 亮色主题：粒子已在重建时换为深色调，这里仅轻微收敛透明度防抢眼 */
 .particle-canvas.is-light {
-  opacity: 0.55;
+  opacity: 0.9;
 }
 </style>

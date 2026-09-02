@@ -9,20 +9,20 @@ interface TermLine {
 
 const exchanges: TermLine[][] = [
   [
-    { kind: 'user', text: '请帮我用 Vue 3 实现一个可复用的 useThrottle' },
-    { kind: 'ai', text: '好的，交叉执行时间戳 + 定时器的双保险是这样：', typed: true },
-    { kind: 'ai', text: "const useThrottle = (fn, ms = 300) => { ... }", typed: true, },
-    { kind: 'ai', text: '已生成测试用例 + 类型定义，可直接粘贴使用。', typed: true },
+    { kind: 'user', text: '用 Vue 2 帮我写一个可复用的 v-debounce 指令' },
+    { kind: 'ai', text: '好的，绑定阶段注册监听、卸载时清理，是这样：', typed: true },
+    { kind: 'ai', text: "Vue.directive('debounce', { ... }) 已生成，含说明与示例", typed: true },
+    { kind: 'ai', text: '已补上单元测试与边界场景处理，可直接粘贴使用。', typed: true },
   ],
   [
-    { kind: 'user', text: '把这段 Three.js 粒子系统性能再优化一下' },
-    { kind: 'ai', text: '已定位瓶颈：每帧重建 BufferGeometry。', typed: true },
-    { kind: 'ai', text: '改用预分配 TypedArray + 原地写入，draw calls 降 12x。', typed: true },
+    { kind: 'user', text: '帮我把 Node.js 上传 Excel 的解析做成接口' },
+    { kind: 'ai', text: '已定位关键点：大文件流式读取 + 字段校验。', typed: true },
+    { kind: 'ai', text: '生成路由、解析器与错误返回，内存占用降低 60%。', typed: true },
   ],
   [
-    { kind: 'user', text: '为我们的设计系统设计暗色模式 token 方案' },
-    { kind: 'ai', text: '按语义层 / 基础层拆成 CSS 变量，并给出对比度校验。', typed: true },
-    { kind: 'ai', text: '已输出 120+ 个 token 与 Figma 变量同步表格。', typed: true },
+    { kind: 'user', text: '中后台表格要做大数据量虚拟滚动，给个方案' },
+    { kind: 'ai', text: '思路：固定行高 + 可视区裁剪 + 缓冲行。', typed: true },
+    { kind: 'ai', text: '已输出可运行的虚拟滚动组件与性能对比数据。', typed: true },
   ],
 ]
 
@@ -106,7 +106,7 @@ const pillars = [
           <span class="ai-grad">写代码的方式</span>
         </h2>
         <p class="section-sub" data-reveal style="--reveal-delay: 160ms">
-          这不是一个「趋势词」—— 它是我连续三年每天都在用的工作方式。
+          这不是一个「趋势词」—— 它是我连续两年每天都在用的工作方式。
           左边是真实对话片段，右边是我的实践心得。
         </p>
 

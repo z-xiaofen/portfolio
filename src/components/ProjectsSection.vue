@@ -2,7 +2,6 @@
 import { onMounted, onBeforeUnmount, ref } from 'vue'
 
 interface Project {
-  featured?: boolean
   tag: string
   title: string
   desc: string
@@ -15,15 +14,14 @@ const projects: Project[] = [
   {
     tag: '设计系统',
     title: 'Neo Design 组件库',
-    desc: '为 10+ 企业级中后台产品定制的 Vue 3 设计系统，内置暗色模式、主题令牌与无障碍支持，覆盖 40+ 基础组件。',
-    stack: ['Vue 3', 'TypeScript', 'Tailwind', 'VitePress'],
+    desc: '为 10+ 企业级中后台产品定制的 Vue 设计系统，内置暗色模式、主题令牌与无障碍支持，覆盖 40+ 基础组件。',
+    stack: ['Vue 2', 'Sass', 'Monorepo'],
     links: [
       { label: 'GitHub', href: '#' },
       { label: '在线文档', href: '#' },
     ],
   },
   {
-    featured: true,
     tag: 'AI 赋能',
     title: 'AI Code Tutor',
     desc: '在编辑器内实时生成补全与解释的 AI 编程助手，支持多模型切换，把「提问-生成-落地」压成一个快捷键。',
@@ -48,8 +46,8 @@ const projects: Project[] = [
   {
     tag: '可视化',
     title: '实时交通大数据大屏',
-    desc: '基于 Three.js 与 WebSocket 的实时数据大屏，流畅渲染上万节点的路径动画，峰值帧率稳定在 60fps。',
-    stack: ['Three.js', 'ECharts', 'WebSocket', 'Vue 3'],
+    desc: '面向城市的实时数据大屏，WebSocket 实时推送上万条路径数据，峰值帧率稳定在 60fps。',
+    stack: ['ECharts', 'WebSocket', 'Vue 2'],
     links: [
       { label: '在线体验', href: '#' },
       { label: 'GitHub', href: '#' },
@@ -70,7 +68,7 @@ const projects: Project[] = [
     tag: '待补充',
     title: '占位项目 ①',
     desc: '这里将介绍我的下一个项目。计划做一款面向创作者的工具型产品，正在打磨交互与视觉细节。',
-    stack: ['Vue 3', 'Vite'],
+    stack: ['Vue 2', 'Vue CLI'],
     links: [
       { label: 'GitHub', href: '#' },
       { label: '在线体验', href: '#' },
@@ -86,8 +84,8 @@ const projects: Project[] = [
   {
     tag: '待补充',
     title: '占位项目 ③',
-    desc: '占位：基于 Three.js 的 Web 端 3D 展示页，包含模型加载、轨道控制器与布光方案。',
-    stack: ['Three.js', 'GSAP'],
+    desc: '占位：B 端权限管理系统，覆盖 RBAC 权限、动态路由与菜单配置，沉淀通用的中后台脚手架。',
+    stack: ['Vue 2', 'Element UI', 'Node.js'],
     links: [{ label: '演示', href: '#' }],
   },
   {
@@ -121,7 +119,7 @@ const projects: Project[] = [
     tag: '待补充',
     title: '占位项目 ⑦',
     desc: '占位：跨端小程序 + H5 一体化项目，覆盖商城、直播与会员体系，沉淀可复用的营销组件与埋点规范。',
-    stack: ['Vue 3', 'Pinia', 'uni-app'],
+    stack: ['Vue 2', 'Vuex', 'uni-app'],
     links: [
       { label: '小程序码', href: '#' },
       { label: 'GitHub', href: '#' },
@@ -130,8 +128,8 @@ const projects: Project[] = [
   {
     tag: '待补充',
     title: '占位项目 ⑧',
-    desc: '占位：3D 交互可视化作品集，WebGPU 渲染 + 粒子系统 + 轨道控制器，探索下一代 Web 图形边界。',
-    stack: ['Three.js', 'WebGPU', 'GSAP'],
+    desc: '占位：完整的中后台服务端项目，包含登录鉴权、数据报表与消息推送，前端 Vue 2 + 后端 Node.js 一体化交付。',
+    stack: ['Vue 2', 'Node.js', 'MySQL'],
     links: [
       { label: '在线体验', href: '#' },
       { label: 'GitHub', href: '#' },
@@ -231,8 +229,8 @@ onBeforeUnmount(() => cancelAnimationFrame(rafTilt))
             亲手做过的东西
           </h2>
           <p class="section-sub" data-reveal style="--reveal-delay: 160ms">
-            从设计系统到数据大屏，从 AI 工具到三维交互 —— 每个项目都是一次
-            对新技术的认真尝试。
+            从设计系统到中后台业务，从 Node.js 服务到小程序 —— 每个项目都是一次
+            把复杂业务稳稳落地的认真尝试。
           </p>
         </div>
 
@@ -267,7 +265,6 @@ onBeforeUnmount(() => cancelAnimationFrame(rafTilt))
           v-for="(p, i) in projects"
           :key="p.title"
           class="project-card"
-          :class="{ featured: p.featured }"
           data-reveal
           :ref="setCard"
           @pointermove="onTiltMove($event, ($event.currentTarget as HTMLElement))"
@@ -275,8 +272,8 @@ onBeforeUnmount(() => cancelAnimationFrame(rafTilt))
           :style="{ '--reveal-delay': (i * 120 + 200) + 'ms' }"
         >
           <div class="card-top">
-            <span class="card-tag" :class="{ 'tag-featured': p.featured }">{{ p.tag }}</span>
-            <span v-if="p.featured" class="card-spark" aria-hidden="true">
+            <span class="card-tag">{{ p.tag }}</span>
+            <span class="card-spark" aria-hidden="true">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"/></svg>
             </span>
           </div>
@@ -425,8 +422,12 @@ onBeforeUnmount(() => cancelAnimationFrame(rafTilt))
   gap: 16px;
   padding: 28px;
   border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
-  background: var(--surface);
+  /* 统一为霓虹紫边 + 顶部光晕，所有卡片同一套高亮 UI */
+  border: 1px solid rgba(124, 77, 255, 0.4);
+  background:
+    radial-gradient(120% 90% at 50% 0%, var(--featured-tint) 0%, transparent 55%),
+    var(--surface);
+  box-shadow: var(--glow-featured-base);
   will-change: transform;
   transition:
     border-color 0.3s ease,
@@ -443,7 +444,8 @@ onBeforeUnmount(() => cancelAnimationFrame(rafTilt))
   opacity: 0;
   background: radial-gradient(
     300px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(124, 77, 255, 0.16),
+    rgba(0, 229, 255, 0.14),
+    rgba(124, 77, 255, 0.1),
     transparent 62%
   );
   transition: opacity 0.3s ease;
@@ -453,30 +455,7 @@ onBeforeUnmount(() => cancelAnimationFrame(rafTilt))
   opacity: 1;
 }
 
-.project-card.featured::before {
-  background: radial-gradient(
-    300px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(0, 229, 255, 0.14),
-    rgba(124, 77, 255, 0.1),
-    transparent 62%
-  );
-}
-
 .project-card:hover {
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-card);
-}
-
-/* 高亮的 AI 卡片 */
-.project-card.featured {
-  border-color: rgba(124, 77, 255, 0.4);
-  background:
-    radial-gradient(120% 90% at 50% 0%, var(--featured-tint) 0%, transparent 55%),
-    var(--surface);
-  box-shadow: var(--glow-featured-base);
-}
-
-.project-card.featured:hover {
   border-color: rgba(124, 77, 255, 0.75);
   box-shadow: var(--shadow-featured);
 }
@@ -491,15 +470,10 @@ onBeforeUnmount(() => cancelAnimationFrame(rafTilt))
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 0.06em;
-  color: var(--text-faint);
+  color: var(--tag-violet-text);
   padding: 6px 12px;
   border-radius: 999px;
-  border: 1px solid var(--border);
-}
-
-.tag-featured {
-  color: var(--tag-violet-text);
-  border-color: rgba(124, 77, 255, 0.55);
+  border: 1px solid rgba(124, 77, 255, 0.55);
   background: var(--violet-soft);
 }
 
@@ -674,9 +648,6 @@ onBeforeUnmount(() => cancelAnimationFrame(rafTilt))
   .projects-grid {
     grid-template-columns: 1fr 1fr;
   }
-  .project-card.featured {
-    grid-column: span 2;
-  }
 }
 
 @media (max-width: 720px) {
@@ -686,9 +657,6 @@ onBeforeUnmount(() => cancelAnimationFrame(rafTilt))
   }
   .projects-grid {
     grid-template-columns: 1fr;
-  }
-  .project-card.featured {
-    grid-column: span 1;
   }
 }
 

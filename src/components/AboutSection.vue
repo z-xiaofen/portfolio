@@ -1,28 +1,32 @@
 <script setup lang="ts">
 const skills = [
-  { name: 'Vue 3 / Nuxt', level: '主力框架', pct: 92 },
-  { name: 'TypeScript', level: '日常标配', pct: 88 },
-  { name: 'Three.js / WebGL', level: '三维与动效', pct: 80 },
-  { name: 'AI Coding', level: 'Cursor / 各类助手', pct: 85 },
+  { name: 'Vue 2 / Vue 3', level: '主力框架', pct: 90 },
+  { name: 'B 端中后台', level: '主攻方向', pct: 88 },
+  { name: 'Node.js / 小程序', level: '后端与跨端', pct: 80 },
+  { name: 'AI Coding', level: 'Codex / 大模型', pct: 90 },
 ]
 
 const tools = [
-  'Vite',
-  'Pinia',
-  'Vue Router',
-  'Three.js',
-  'GSAP',
-  'Tailwind CSS',
-  'Cursor',
-  'GitHub Copilot',
+  'Vue 2',
+  'Vuex',
+  'Element UI',
+  'Node.js',
+  'Express',
+  '小程序',
+  'uni-app',
+  'Codex',
   'Claude',
   'Figma',
+  'Monorepo',
+  'CI (GitHub Actions)',
+  'ESLint',
+  'Vitest',
 ]
 
 const highlights = [
-  { t: '5+', d: '年前端开发经验' },
-  { t: '3+', d: '年 AI Coding 深度实践' },
-  { t: '20+', d: '上线项目与产品迭代' },
+  { t: '5', d: '年工作经验 · 另 1 年实习' },
+  { t: '2', d: '年 AI Coding 实践' },
+  { t: '10+', d: '上线项目与产品迭代' },
 ]
 </script>
 
@@ -50,19 +54,20 @@ const highlights = [
         <span class="section-eyebrow" data-reveal><em>02</em> / 关于我</span>
         <h2 class="section-title" data-reveal style="--reveal-delay: 80ms">
           你好，我是王浩
-          <span class="title-accent">一名前端工程师</span>
+          <span class="title-accent">一名擅用 AI 的前端工程师</span>
         </h2>
 
         <p class="about-text" data-reveal style="--reveal-delay: 160ms">
-          我有 5 年的前端开发经验，长期使用 Vue 技术栈构建复杂的中后台与营销型产品。
-          我擅长把「炫酷的三维视觉」与「可用的产品逻辑」结合在一起 ——
-          用 <em>Three.js</em> 做交互式可视化，用 <em>GSAP</em> 打磨动效细节。
+          我有 5 年工作经验（另有 1 年实习），主要参与 <em>B 端中后台</em>产品的研发：
+          以 <em>Vue 2</em> 为主力框架，配合 <em>Node.js</em> 完成服务端逻辑，
+          也独立交付过多个小程序。比起炫技，我更在意把复杂的业务规则
+          拆成稳定、好维护、对用户好用的页面。
         </p>
         <p class="about-text" data-reveal style="--reveal-delay: 240ms">
-          2022 年起，我把 <em>AI Coding</em> 正式接入工作流：需求拆解、原型生成、单元测试、
-          代码评审 …… 借助 Cursor、Copilot 与各类大模型，我交付迭代的速度大约提升了
-          3~5 倍，同时把更多时间留给架构与体验。我坚信：<strong>AI 不是替代者，而是
-          工程师最锋利的杠杆。</strong>
+          2025 年起，我把 <em>AI Coding</em> 正式接入日常开发：需求拆解、原型生成、
+          单元测试、代码评审 …… 借助 <em>Codex</em>、Claude 等大模型，
+          我把重复劳动交给 AI，把更多时间留给架构与业务。我坚信：
+          <strong>AI 不是替代者，而是工程师最锋利的杠杆。</strong>
         </p>
 
         <div class="about-stats" data-reveal style="--reveal-delay: 320ms">
@@ -86,6 +91,20 @@ const highlights = [
 
         <div class="tools" data-reveal style="--reveal-delay: 480ms">
           <span v-for="t in tools" :key="t" class="tool-chip">{{ t }}</span>
+        </div>
+
+        <!-- 求职信息：教育背景 + 求职意向 -->
+        <div class="credential" data-reveal style="--reveal-delay: 560ms">
+          <div class="cred-card">
+            <span class="cred-label">教育背景</span>
+            <p class="cred-value">郑州工商学院 · 网络工程 · 本科</p>
+            <span class="cred-note">2017 — 2021</span>
+          </div>
+          <div class="cred-card">
+            <span class="cred-label">求职意向</span>
+            <p class="cred-value">前端工程师 · B 端 / AI Coding 方向</p>
+            <p class="cred-value">杭州 · 已离职，可随时到岗</p>
+          </div>
         </div>
       </div>
     </div>
@@ -331,6 +350,49 @@ const highlights = [
 .tool-chip:hover {
   color: var(--violet);
   border-color: rgba(124, 77, 255, 0.5);
+}
+
+/* 求职信息卡组：教育背景 + 求职意向 */
+.credential {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.cred-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 20px;
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--border-strong);
+  background: var(--surface-raised);
+}
+
+.cred-label {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.cred-value {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.cred-note {
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+@media (max-width: 560px) {
+  .credential {
+    grid-template-columns: 1fr;
+  }
 }
 
 @keyframes glow-breathe {

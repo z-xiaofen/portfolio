@@ -2,9 +2,9 @@
 import ParticleCanvas from './ParticleCanvas.vue'
 import TypedText from './TypedText.vue'
 
-const roles = ['前端工程师', 'AI Coding 实践者', '三维交互探索者', 'Vue / TS / Three.js']
+const roles = ['B 端中后台 / AI Coding', 'Vue 2 · Node.js · 小程序']
 
-const tags = ['Vue 3', 'Vite', 'TypeScript', 'Three.js', 'AI 提效']
+const tags = ['Vue 2', 'Node.js', '小程序', 'B 端中后台', 'AI Coding']
 
 function scrollTo(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -23,7 +23,7 @@ function scrollTo(id: string) {
         <span class="hero-kicker"><em>01</em> / 嗨，你好</span>
 
         <h1 class="hero-title">
-          <span class="hero-line">我是王浩</span>
+          <span class="hero-line">王浩 · 前端工程师</span>
           <TypedText class="hero-typed" :words="roles" />
         </h1>
 
@@ -45,6 +45,10 @@ function scrollTo(id: string) {
         </div>
 
         <div class="hero-tags">
+          <span class="hero-tag status" aria-label="求职状态">
+            <span class="dot" aria-hidden="true"></span>
+            杭州 · 已离职，可随时到岗
+          </span>
           <span v-for="tag in tags" :key="tag" class="hero-tag">{{ tag }}</span>
         </div>
       </div>
@@ -259,6 +263,30 @@ function scrollTo(id: string) {
   color: var(--cyan);
   border-color: rgba(0, 229, 255, 0.4);
   box-shadow: 0 0 16px rgba(0, 229, 255, 0.15);
+}
+
+/* 求职状态 chip：绿色强调，与普通标签区分 */
+.hero-tag.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--lime);
+  border-color: rgba(74, 247, 196, 0.4);
+  background: color-mix(in srgb, var(--lime) 10%, transparent);
+}
+
+.hero-tag.status .dot {
+  width: 7px;
+  height: 7px;
+  background: var(--lime);
+  box-shadow: 0 0 10px rgba(74, 247, 196, 0.9);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.hero-tag.status:hover {
+  color: var(--lime);
+  border-color: rgba(74, 247, 196, 0.65);
+  box-shadow: 0 0 16px rgba(74, 247, 196, 0.2);
 }
 
 .scroll-indicator {

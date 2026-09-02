@@ -1,40 +1,41 @@
 import { onMounted, onBeforeUnmount } from 'vue'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 /**
- * 滚动显现：给 [data-reveal] 元素添加 IntersectionObserver，
- * 进入视口时加上 .is-visible 触发 CSS 过渡。
- * 支持 --reveal-delay 做交错入场。
+ * 滚动显现：用 GSAP ScrollTrigger 替代 IntersectionObserver，
+ * 元素进入视口 88% 时添加 .is-visible 触发 CSS 过渡。
+ * 保持 [data-reveal] / --reveal-delay 原有契约，CSS 无需改动。
  */
 export function useReveal() {
-  let observer: IntersectionObserver | null = null
+  let triggers: ScrollTrigger[] = []
 
   const init = () => {
-    const targets = document.querySelectorAll<HTMLElement>('[data-reveal]')
-    if (!targets.length) return
+    const els = document.querySelectorAll<HTMLElement>('[data-reveal]')
+    if (!els.length) return
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (reduced) {
-      targets.forEach((el) => el.classList.add('is-visible'))
+      els.forEach((el) => el.classList.add('is-visible'))
       return
     }
 
-    observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible')
-            observer?.unobserve(entry.target)
-          }
-        }
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -6% 0px' },
-    )
-    targets.forEach((el) => observer?.observe(el))
+    els.forEach((el) => {
+      const st = ScrollTrigger.create({
+        trigger: el,
+        start: 'top 88%',
+        once: true,
+        onEnter: () => el.classList.add('is-visible'),
+      })
+      triggers.push(st)
+    })
   }
 
   const destroy = () => {
-    observer?.disconnect()
-    observer = null
+    triggers.forEach((t) => t.kill())
+    triggers = []
   }
 
   onMounted(() => {

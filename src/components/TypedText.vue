@@ -52,7 +52,7 @@ onBeforeUnmount(() => clearTimeout(timer))
 </script>
 
 <template>
-  <span class="typed" aria-label="职业标签：前端工程师，AI Coding 实践者，三维交互探索者">
+  <span class="typed" aria-label="职业标签：前端工程师，B 端产品开发者，AI Coding 实践者">
     {{ text }}<span class="caret" aria-hidden="true"></span>
   </span>
 </template>
