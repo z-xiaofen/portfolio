@@ -60,9 +60,10 @@ onBeforeUnmount(() => clearTimeout(timer))
 <style scoped>
 .typed {
   display: inline-flex;
-  align-items: baseline;
-  /* 固定行盒高度：文字被删除到最短时整行也不塌陷 */
-  min-height: 1.15em;
+  align-items: center;
+  /* 固定行盒高度与行高，保证删除到最短时整行不塌陷 */
+  min-height: 1.25em;
+  line-height: 1.25;
   background: var(--grad-ai);
   -webkit-background-clip: text;
   background-clip: text;
@@ -71,20 +72,16 @@ onBeforeUnmount(() => clearTimeout(timer))
 }
 
 .caret {
-  display: inline-block;
+  display: block;
+  flex: none;
   width: 3px;
-  height: 0.95em;
-  margin-left: 4px;
+  /* 与文字一字等高，垂直居中于行盒，避免与文字行高不一致 */
+  height: 1em;
+  margin-left: 5px;
   border-radius: 2px;
   background: var(--cyan);
   box-shadow: 0 0 12px var(--cyan);
-  transform: translateY(0.1em);
   animation: blink 0.9s steps(2, start) infinite;
-}
-
-/* 光标贴着文字底部，随文字基线走 */
-.typed > .caret {
-  align-self: flex-end;
 }
 
 @keyframes blink {
