@@ -47,7 +47,7 @@ const highlights = [
 
       <!-- 右：简介 -->
       <div class="about-content">
-        <span class="section-eyebrow" data-reveal>02 / 关于我</span>
+        <span class="section-eyebrow" data-reveal><em>02</em> / 关于我</span>
         <h2 class="section-title" data-reveal style="--reveal-delay: 80ms">
           你好，我是王浩
           <span class="title-accent">一名前端工程师</span>

@@ -107,6 +107,36 @@ const projects: Project[] = [
       { label: '在线访问', href: '#' },
     ],
   },
+  {
+    tag: '待补充',
+    title: '占位项目 ⑥',
+    desc: '占位：Node.js + 数据库的完整后端项目，提供 REST API 与 WebSocket 实时推送，配套 Docker 一键部署与接口文档。',
+    stack: ['Node.js', 'PostgreSQL', 'Docker'],
+    links: [
+      { label: 'GitHub', href: '#' },
+      { label: 'API 文档', href: '#' },
+    ],
+  },
+  {
+    tag: '待补充',
+    title: '占位项目 ⑦',
+    desc: '占位：跨端小程序 + H5 一体化项目，覆盖商城、直播与会员体系，沉淀可复用的营销组件与埋点规范。',
+    stack: ['Vue 3', 'Pinia', 'uni-app'],
+    links: [
+      { label: '小程序码', href: '#' },
+      { label: 'GitHub', href: '#' },
+    ],
+  },
+  {
+    tag: '待补充',
+    title: '占位项目 ⑧',
+    desc: '占位：3D 交互可视化作品集，WebGPU 渲染 + 粒子系统 + 轨道控制器，探索下一代 Web 图形边界。',
+    stack: ['Three.js', 'WebGPU', 'GSAP'],
+    links: [
+      { label: '在线体验', href: '#' },
+      { label: 'GitHub', href: '#' },
+    ],
+  },
 ]
 
 /* ---------- 布局：普通网格 / 类淘宝瀑布流 ---------- */
@@ -196,7 +226,7 @@ onBeforeUnmount(() => cancelAnimationFrame(rafTilt))
     <div class="container">
       <div class="projects-head">
         <div>
-          <span class="section-eyebrow" data-reveal>03 / 项目精选</span>
+          <span class="section-eyebrow" data-reveal><em>03</em> / 项目精选</span>
           <h2 class="section-title" data-reveal style="--reveal-delay: 80ms">
             亲手做过的东西
           </h2>
@@ -229,10 +259,6 @@ onBeforeUnmount(() => cancelAnimationFrame(rafTilt))
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h6v12H4zM14 3h6v7h-6zM14 14h6v7h-6zM4 19h6v2H4z"/></svg>
             </button>
           </div>
-          <a class="more-link" href="#">
-            查看全部项目
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
         </div>
       </div>
 
@@ -361,23 +387,6 @@ onBeforeUnmount(() => cancelAnimationFrame(rafTilt))
   color: inherit;
 }
 
-.more-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-dim);
-  padding: 12px 8px;
-  white-space: nowrap;
-  transition: color 0.25s ease, gap 0.25s ease;
-}
-
-.more-link:hover {
-  color: var(--cyan);
-  gap: 12px;
-}
-
 /* 瀑布流模式：CSS 多列，瀑布错落 */
 .projects-grid.is-masonry {
   display: block;
@@ -455,24 +464,21 @@ onBeforeUnmount(() => cancelAnimationFrame(rafTilt))
 
 .project-card:hover {
   border-color: var(--border-strong);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--shadow-card);
 }
 
 /* 高亮的 AI 卡片 */
 .project-card.featured {
   border-color: rgba(124, 77, 255, 0.4);
   background:
-    radial-gradient(120% 90% at 50% 0%, rgba(124, 77, 255, 0.14) 0%, transparent 55%),
+    radial-gradient(120% 90% at 50% 0%, var(--featured-tint) 0%, transparent 55%),
     var(--surface);
-  box-shadow: 0 0 40px rgba(124, 77, 255, 0.18);
+  box-shadow: var(--glow-featured-base);
 }
 
 .project-card.featured:hover {
   border-color: rgba(124, 77, 255, 0.75);
-  box-shadow:
-    0 0 22px rgba(124, 77, 255, 0.35),
-    0 0 70px rgba(124, 77, 255, 0.18),
-    0 30px 60px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--shadow-featured);
 }
 
 .card-top {
@@ -492,7 +498,7 @@ onBeforeUnmount(() => cancelAnimationFrame(rafTilt))
 }
 
 .tag-featured {
-  color: #e6d8ff;
+  color: var(--tag-violet-text);
   border-color: rgba(124, 77, 255, 0.55);
   background: var(--violet-soft);
 }
@@ -571,7 +577,7 @@ onBeforeUnmount(() => cancelAnimationFrame(rafTilt))
   font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0.06em;
-  color: #e6d8ff;
+  color: var(--tag-violet-text);
   padding: 3px 9px;
   border-radius: 999px;
   background: var(--violet-soft);

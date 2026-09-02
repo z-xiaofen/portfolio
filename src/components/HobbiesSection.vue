@@ -11,7 +11,6 @@ const hobbies = [
     tags: ['诺兰', '硬科幻', '奥斯卡片单'],
     accent: 'cyan',
     img: imgFilm,
-    icon: '<path d="M3.5 6.5c0-1.1.9-2 2-2h13c1.1 0 2 .9 2 2v11c0 1.1-.9 2-2 2h-13c-1.1 0-2-.9-2-2v-11z"/><path d="M10 9.5v5l4.5-2.5-4.5-2.5z"/>',
   },
   {
     name: '游戏',
@@ -20,16 +19,14 @@ const hobbies = [
     tags: ['任天堂', '开放世界', '独立游戏'],
     accent: 'violet',
     img: imgGame,
-    icon: '<path d="M6 8h12a4 4 0 0 1 4 4v3a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4v-3a4 4 0 0 1 4-4z"/><path d="M6.8 10.8h.01M6.8 17.5h.01M16.5 12.5h.01M20 12.5h.01M6 12.5a2.8 2.8 0 1 0 5.6 0 2.8 2.8 0 0 0-5.6 0z"/>',
   },
   {
     name: '模型',
     title: '拼装的专注',
     desc: '高达拼装、积木与手办收藏，享受零件一点一点变成完整作品的耐心与秩序感。',
     tags: ['高达', '乐高', '手办'],
-    accent: 'magenta',
+    accent: 'lime',
     img: imgModel,
-    icon: '<path d="M12 2l2.5 2.5-8 8L4 10 12 2zM4 10l3 3-1.5 1.5L2.5 11.5 4 10zM11 9l7.5-4-2 7.5L12 16.5 11 9zM9.5 20.5L8 12l5.5 1.5-4 7z"/>',
   },
 ]
 </script>
@@ -40,7 +37,7 @@ const hobbies = [
 
     <div class="container">
       <div class="hobbies-head">
-        <span class="section-eyebrow" data-reveal>06 / 爱好</span>
+        <span class="section-eyebrow" data-reveal><em>06</em> / 爱好</span>
         <h2 class="section-title" data-reveal style="--reveal-delay: 80ms">
           工作之外，我还喜欢
         </h2>
@@ -65,7 +62,6 @@ const hobbies = [
           </div>
 
           <div class="hobby-body">
-            <div class="hobby-icon" v-html="`<svg width='26' height='26' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'>${h.icon}</svg>`"></div>
             <span class="hobby-name">{{ h.name }}</span>
             <h3 class="hobby-title">{{ h.title }}</h3>
             <p class="hobby-desc">{{ h.desc }}</p>
@@ -169,25 +165,13 @@ const hobbies = [
   z-index: 1;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
+  /* 撑满卡片内容区：三张卡片文案长短不一，保证内容底对齐、高度一致 */
+  flex-grow: 1;
   transition:
     transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.4s ease,
     filter 0.45s ease;
-}
-
-.hobby-icon {
-  width: 56px;
-  height: 56px;
-  margin-bottom: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 18px;
-  color: var(--acc);
-  background: color-mix(in srgb, var(--acc) 12%, transparent);
-  border: 1px solid color-mix(in srgb, var(--acc) 35%, transparent);
-  box-shadow: 0 0 22px color-mix(in srgb, var(--acc) 22%, transparent);
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .hobby-name {
@@ -253,8 +237,8 @@ const hobbies = [
   --acc: var(--violet);
 }
 
-.accent-magenta {
-  --acc: var(--magenta);
+.accent-lime {
+  --acc: var(--lime);
 }
 
 @media (max-width: 900px) {

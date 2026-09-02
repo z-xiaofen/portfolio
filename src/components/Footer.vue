@@ -8,6 +8,17 @@ const WECHAT = '18503760936'
 const copied = ref(false)
 let copyTimer = 0
 
+const navLinks = [
+  { id: 'home', label: '首页' },
+  { id: 'about', label: '关于' },
+  { id: 'projects', label: '项目' },
+  { id: 'ai', label: 'AI Coding' },
+  { id: 'experience', label: '经历' },
+  { id: 'hobbies', label: '爱好' },
+]
+
+const stack = ['Vue 3', 'TypeScript', 'Three.js', 'Vite', 'AI Coding', 'GitHub Actions']
+
 const socials = [
   {
     name: 'GitHub',
@@ -78,6 +89,48 @@ function goTop() {
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           {{ EMAIL }}
         </a>
+      </div>
+
+      <!-- 导航 / 技术栈 / 联系方式 -->
+      <div class="footer-mid" data-reveal style="--reveal-delay: 80ms">
+        <div class="footer-col">
+          <h4 class="footer-col-title">快速导航</h4>
+          <div class="footer-nav">
+            <a
+              v-for="n in navLinks"
+              :key="n.id"
+              class="footer-nav-link"
+              :href="`#${n.id}`"
+            >
+              {{ n.label }}
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">技术栈</h4>
+          <div class="footer-chips">
+            <span v-for="s in stack" :key="s" class="footer-chip">{{ s }}</span>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-title">保持联系</h4>
+          <div class="footer-contact">
+            <a class="footer-contact-link" :href="GITHUB" target="_blank" rel="noopener">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+            <button class="footer-contact-link" @click="copyWechat">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8.66 1C4.32 1 1 3.98 1 7.56c0 1.97 1.04 3.73 2.67 4.88l-.68 2.07 2.44-1.27c.72.2 1.48.31 2.23.31h.44a5.9 5.9 0 0 1-.28-1.8c0-3.36 3.19-6.08 7.12-6.08l.43.01C14.86 3.94 11.98 1 8.66 1zm-1.53-2.9h-.02zm11.1 5.9c-3.72 0-6.72 2.57-6.72 5.72s3 5.72 6.72 5.72c.62 0 1.22-.07 1.79-.2l2.08 1.1-.56-1.73c1.34-.97 2.21-2.48 2.21-4.16 0-3.15-3-5.72-6.72-5.72zm-1.53 4.06a.73.73 0 1 1 0 1.46.73.73 0 0 1 0-1.46zm4.5 0a.73.73 0 1 1 0 1.46.73.73 0 0 1 0-1.46z" transform="translate(1 1) scale(0.92)"/></svg>
+              {{ copied ? '已复制' : '微信' }}
+            </button>
+            <a class="footer-contact-link" :href="`mailto:${EMAIL}`">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 7l8-5H4l8 5zm0 2l-8-5v10h16V8l-8 5z"/></svg>
+              {{ EMAIL }}
+            </a>
+          </div>
+        </div>
       </div>
 
       <div class="footer-bar" data-reveal style="--reveal-delay: 120ms">
@@ -177,6 +230,96 @@ function goTop() {
 
 .footer-mail {
   margin-top: 30px;
+}
+
+/* ---- 中部三栏：导航 / 技术栈 / 联系方式 ---- */
+.footer-mid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  padding: 40px 0 36px;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-col-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 16px;
+}
+
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 20px;
+  width: 100%;
+}
+
+.footer-nav-link {
+  font-size: 14px;
+  color: var(--text-dim);
+  transition:
+    color 0.25s ease,
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.footer-nav-link:hover {
+  color: var(--cyan);
+  transform: translateX(3px);
+}
+
+.footer-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.footer-chip {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--text-dim);
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+}
+
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.footer-contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  color: var(--text-dim);
+  padding: 0;
+  transition:
+    color 0.25s ease,
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.footer-contact-link:hover {
+  color: var(--cyan);
+  transform: translateX(3px);
+}
+
+@media (max-width: 720px) {
+  .footer-mid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
 }
 
 .footer-bar {

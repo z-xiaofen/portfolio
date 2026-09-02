@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import avatarSrc from '../assets/avatar.jpg'
 
-defineProps<{ open: boolean }>()
+const props = defineProps<{ open: boolean }>()
 const emit = defineEmits<{ close: [] }>()
 
 const GITHUB = 'https://github.com/z-xiaofen'
@@ -11,6 +11,32 @@ const WECHAT = '18503760936'
 
 const copied = ref(false)
 let copyTimer = 0
+
+// 是否渲染在 DOM 中（含退场动画期间）
+const show = ref(false)
+// 退场动画进行中
+const leaving = ref(false)
+let closeTimer = 0
+
+// 打开：立即渲染并锁定页面滚动；关闭：先播退出动画再卸载、解锁滚动
+watch(
+  () => props.open,
+  (open) => {
+    clearTimeout(closeTimer)
+    if (open) {
+      leaving.value = false
+      show.value = true
+      document.body.style.overflow = 'hidden'
+    } else if (show.value) {
+      leaving.value = true
+      closeTimer = window.setTimeout(() => {
+        show.value = false
+        leaving.value = false
+        document.body.style.overflow = ''
+      }, 400)
+    }
+  },
+)
 
 function copyWechat() {
   const done = () => {
@@ -47,13 +73,21 @@ function onKey(e: KeyboardEvent) {
 onMounted(() => window.addEventListener('keydown', onKey))
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', onKey)
+  clearTimeout(closeTimer)
   clearTimeout(copyTimer)
+  // 组件被整体卸载时确保不残留滚动锁
+  document.body.style.overflow = ''
 })
 </script>
 
 <template>
   <Teleport to="body">
-    <div v-if="open" class="intro-backdrop" @click.self="emit('close')">
+    <div
+      v-if="show"
+      class="intro-backdrop"
+      :class="{ leaving }"
+      @click.self="emit('close')"
+    >
       <div class="intro-modal" role="dialog" aria-modal="true" aria-label="个人简介">
         <button class="intro-close" aria-label="关闭" @click="emit('close')">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -241,12 +275,28 @@ onBeforeUnmount(() => {
   transform: translateY(-2px);
 }
 
+/* 退场动画：遮罩淡出、弹框向下缩小 */
+.intro-backdrop.leaving {
+  animation: backdrop-out 0.3s ease both;
+  pointer-events: none;
+}
+
+.intro-backdrop.leaving .intro-modal {
+  animation: modal-out 0.35s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
 @keyframes backdrop-fade {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes backdrop-out {
+  to {
+    opacity: 0;
   }
 }
 
@@ -258,6 +308,17 @@ onBeforeUnmount(() => {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes modal-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(14px) scale(0.95);
   }
 }
 

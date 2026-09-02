@@ -32,6 +32,16 @@ const experiences = [
     ],
     tags: ['JavaScript', '小程序', '部署'],
   },
+  {
+    time: '2016 — 2018',
+    role: '前端学徒 → 独立开发者',
+    company: '个人项目起步',
+    points: [
+      '自学 HTML/CSS/JavaScript，从个人博客与工具脚本起步，独立完成 30+ 小型项目练手',
+      '第一次把项目部署上线并获得真实用户反馈，从此爱上「产品落地」的完整链路',
+    ],
+    tags: ['JavaScript', 'HTML/CSS', '开源'],
+  },
 ]
 </script>
 
@@ -40,7 +50,7 @@ const experiences = [
     <div class="exp-glow" aria-hidden="true"></div>
 
     <div class="container">
-      <span class="section-eyebrow" data-reveal>05 / 经历</span>
+      <span class="section-eyebrow" data-reveal><em>05</em> / 经历</span>
       <h2 class="section-title" data-reveal style="--reveal-delay: 80ms">
         走过来的一步步
       </h2>

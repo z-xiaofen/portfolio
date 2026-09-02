@@ -20,7 +20,7 @@ function scrollTo(id: string) {
 
     <div class="container hero-inner">
       <div class="hero-text" data-parallax="0.22">
-        <span class="hero-kicker">01 / 嗨，你好</span>
+        <span class="hero-kicker"><em>01</em> / 嗨，你好</span>
 
         <h1 class="hero-title">
           <span class="hero-line">我是王浩</span>
@@ -133,30 +133,53 @@ function scrollTo(id: string) {
 .hero-kicker {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 9px;
+  width: fit-content;
   font-family: var(--mono);
-  font-size: 13.5px;
-  letter-spacing: 0.16em;
+  font-size: 13px;
+  letter-spacing: 0.14em;
   color: var(--text-dim);
+  padding: 7px 16px 7px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+  box-shadow:
+    0 10px 30px -14px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition:
+    border-color 0.3s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease;
   animation: fade-up 1s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
 }
 
-.hero-kicker::before {
-  content: '';
-  width: 36px;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--grad-ai);
-  box-shadow: 0 0 12px rgba(0, 229, 255, 0.35);
+.hero-kicker:hover {
+  border-color: var(--border-strong);
+  box-shadow:
+    0 10px 30px -12px rgba(124, 77, 255, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transform: translateY(-1px);
 }
 
-.hero-kicker::after {
+/* 渐变发光序号 */
+.hero-kicker em {
+  font-style: normal;
+  font-weight: 700;
+  background: var(--grad-ai);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 开头的发光圆点 */
+.hero-kicker::before {
   content: '';
-  width: 5px;
-  height: 5px;
+  flex: none;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: var(--cyan);
-  box-shadow: 0 0 10px var(--cyan);
+  background: var(--grad-ai);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
   animation: kicker-pulse 2.4s ease-in-out infinite;
 }
 

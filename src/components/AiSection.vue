@@ -100,7 +100,7 @@ const pillars = [
     <div class="container ai-grid">
       <!-- 左：内容 -->
       <div class="ai-content">
-        <span class="section-eyebrow" data-reveal>04 / AI Coding</span>
+        <span class="section-eyebrow" data-reveal><em>04</em> / AI Coding</span>
         <h2 class="section-title" data-reveal style="--reveal-delay: 80ms">
           AI 正在改变我
           <span class="ai-grad">写代码的方式</span>
