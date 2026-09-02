@@ -18,12 +18,11 @@ function apply(theme: 'dark' | 'light') {
 }
 
 function init() {
-  // main.ts 已做过首帧引导；这里幂等对齐（以用户保存为准，其次系统偏好）
+  // 默认恒为暗色；仅当用户手动切换过（localStorage 有记录）才使用其选择
   let theme: 'dark' | 'light' = 'dark'
   try {
     const saved = localStorage.getItem(STORAGE) as 'dark' | 'light' | null
     if (saved === 'light' || saved === 'dark') theme = saved
-    else theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
   } catch {
     theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark'
   }
