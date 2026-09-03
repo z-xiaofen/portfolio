@@ -1,26 +1,26 @@
 <script setup lang="ts">
 const skills = [
-  { name: 'Vue 2 / Vue 3', level: '主力框架', pct: 90 },
-  { name: 'B 端中后台', level: '主攻方向', pct: 88 },
-  { name: 'Node.js / 小程序', level: '后端与跨端', pct: 80 },
-  { name: 'AI Coding', level: 'Codex / 大模型', pct: 90 },
+  { name: 'Vue 2 / Vue 3', level: '主力框架 · Vue Router/Pinia', pct: 90 },
+  { name: '数据可视化', level: 'ECharts · AntV X6 大屏', pct: 88 },
+  { name: 'AI Coding', level: 'Agentic Workflow · Trae/Copilot/Codex', pct: 90 },
+  { name: '前端工程化', level: 'Webpack/Vite · qiankun 微前端', pct: 84 },
 ]
 
 const tools = [
   'Vue 2',
+  'Vue 3',
   'Vuex',
-  'Element UI',
-  'Node.js',
-  'Express',
+  'Pinia',
+  'TypeScript',
+  'ECharts',
+  'AntV X6',
+  'Webpack',
+  'Vite',
+  'qiankun',
   '小程序',
-  'uni-app',
+  'Trae',
+  'Copilot',
   'Codex',
-  'Claude',
-  'Figma',
-  'Monorepo',
-  'CI (GitHub Actions)',
-  'ESLint',
-  'Vitest',
 ]
 
 const highlights = [
@@ -59,14 +59,15 @@ const highlights = [
 
         <p class="about-text" data-reveal style="--reveal-delay: 160ms">
           我有 5 年工作经验（另有 1 年实习），主要参与 <em>B 端中后台</em>产品的研发：
-          以 <em>Vue 2</em> 为主力框架，配合 <em>Node.js</em> 完成服务端逻辑，
-          也独立交付过多个小程序。比起炫技，我更在意把复杂的业务规则
-          拆成稳定、好维护、对用户好用的页面。
+          以 <em>Vue 2/3</em> 为主力框架，深耕 <em>ECharts / AntV</em> 数据可视化大屏
+          与低代码流程编排，也独立交付过多个微信小程序。比起炫技，
+          我更在意把复杂的业务规则拆成稳定、好维护、对用户好用的页面。
         </p>
         <p class="about-text" data-reveal style="--reveal-delay: 240ms">
-          2025 年起，我把 <em>AI Coding</em> 正式接入日常开发：需求拆解、原型生成、
-          单元测试、代码评审 …… 借助 <em>Codex</em>、Claude 等大模型，
-          我把重复劳动交给 AI，把更多时间留给架构与业务。我坚信：
+          我以 <em>AI-Native</em> 的方式做开发：精通 <em>Agentic Workflow</em>，熟练使用
+          Trae、GitHub Copilot、Codex 等 AI 编码工具辅助全栈开发、代码重构与故障排查；
+          掌握 Prompt Engineering 与 Context Engineering，构建需求分析 → 代码生成 →
+          测试部署的全流程自动化工作流。我坚信：
           <strong>AI 不是替代者，而是工程师最锋利的杠杆。</strong>
         </p>
 

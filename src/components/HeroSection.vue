@@ -2,9 +2,9 @@
 import ParticleCanvas from './ParticleCanvas.vue'
 import TypedText from './TypedText.vue'
 
-const roles = ['B 端中后台 / AI Coding', 'Vue 2 · Node.js · 小程序']
+const roles = ['数据可视化 / AI Coding', 'Vue 2/3 · TypeScript']
 
-const tags = ['Vue 2', 'Node.js', '小程序', 'B 端中后台', 'AI Coding']
+const tags = ['Vue 2/3', 'ECharts', 'AntV X6', 'TypeScript', 'AI Coding']
 
 function scrollTo(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })

@@ -119,13 +119,13 @@ onBeforeUnmount(() => {
 
         <p class="intro-bio">
           5 年工作经验（另有 1 年实习），长期参与 B 端中后台产品研发，以 Vue 技术栈为主，
-          配合 Node.js 与小程序完成完整业务闭环。2025 年起深度实践 AI Coding，
-          把 Codex、Claude 等大模型接入需求拆解、编码与测试的完整链路，
-          坚信 AI 是工程师最锋利的杠杆。
+          深耕 ECharts / AntV 数据可视化大屏与流程中台。熟练运用 Trae、GitHub Copilot、
+          Codex 等 AI 编码工具，精通 Agentic Workflow 与 Prompt Engineering，
+          打造需求分析 → 代码生成 → 测试部署的全流程自动化。
         </p>
 
         <div class="intro-tags">
-          <span>Vue 2</span><span>Node.js</span><span>小程序</span><span>AI Coding</span>
+          <span>Vue 2/3</span><span>ECharts</span><span>TypeScript</span><span>AI Coding</span>
         </div>
 
         <div class="intro-links">

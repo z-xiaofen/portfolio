@@ -12,50 +12,43 @@ interface Project {
 
 const projects: Project[] = [
   {
-    tag: '设计系统',
-    title: 'Neo Design 组件库',
-    desc: '为 10+ 企业级中后台产品定制的 Vue 设计系统，内置暗色模式、主题令牌与无障碍支持，覆盖 40+ 基础组件。',
-    stack: ['Vue 2', 'Sass', 'Monorepo'],
-    links: [
-      { label: 'GitHub', href: '#' },
-      { label: '在线文档', href: '#' },
-    ],
+    tag: '数字孪生',
+    title: '隧道数字孪生三维可视化监控系统',
+    desc: '覆盖 13 条真实隧道的高速公路隧道群数字孪生系统：WebGL + CSS2D 双渲染管线，基于 WebSocket 的帧缓存与时间插值渲染，数据到画面延迟 ≤250ms；第一视角车辆追踪与视锥体裁剪的视频接力联动。',
+    stack: ['Cesium', 'Three.js', 'WebSocket', 'Vue 3'],
+    links: [],
   },
   {
     tag: 'AI 赋能',
-    title: 'AI Code Tutor',
-    desc: '在编辑器内实时生成补全与解释的 AI 编程助手，支持多模型切换，把「提问-生成-落地」压成一个快捷键。',
-    stack: ['TypeScript', 'OpenAI API', 'Node.js', 'WebSocket'],
-    links: [
-      { label: '演示视频', href: '#' },
-      { label: '技术拆解', href: '#' },
-    ],
+    title: 'AI 模型服务管理平台',
+    desc: '企业级 AI 模型全生命周期管理（发布/部署/监控），Vue 3 + TypeScript 构建；基于角色的动态权限路由、5 种可切换布局、Vue Flow 可视化流程编辑器；70%+ 代码由 AI 生成，开发效率提升 3 倍。',
+    stack: ['Vue 3', 'TypeScript', 'Pinia', 'Vue Flow', 'AI Coding'],
+    links: [],
     code: {
-      file: 'prompt.ts',
+      file: 'router/guard.ts',
       lines: [
-        ['// 用 AI 把描述变成可运行代码', ''],
-        [`const prompt = (desc: string) => \``, ''],
-        ['  你是资深前端工程师，', 'hl-violet'],
-        [`  请实现：\${desc}`, ''],
-        [`  输出完整可运行代码。\``, ''],
+        ['// 基于角色的动态权限路由', ''],
+        [`const routes = genRoutes(role)`, ''],
         ['', ''],
-        ['await ai.complete(prompt(description))', 'hl-cyan'],
+        [`router.beforeEach((to, from, next) => {`, ''],
+        ['  if (hasPermission(to, userStore.roles))', 'hl-violet'],
+        ['    next()', ''],
+        ['  else', ''],
+        ['    next(`/403?from=${to.path}`)', ''],
+        ['})', 'hl-cyan'],
       ],
     },
   },
   {
-    tag: '可视化',
-    title: '实时交通大数据大屏',
-    desc: '面向城市的实时数据大屏，WebSocket 实时推送上万条路径数据，峰值帧率稳定在 60fps。',
-    stack: ['ECharts', 'WebSocket', 'Vue 2'],
-    links: [
-      { label: '在线体验', href: '#' },
-      { label: 'GitHub', href: '#' },
-    ],
+    tag: '低代码',
+    title: '低代码流程编排平台',
+    desc: '面向大数据平台的可视化编排系统：AntV X6 图编辑引擎，覆盖 70+ 算子/控制/服务节点，插件化中间件架构让新增节点零侵入；40+ 算子参数动态配置，支持流程在线调试与版本管理。',
+    stack: ['Vue 2', 'AntV X6', 'CodeMirror', 'Axios'],
+    links: [],
   },
   {
     tag: 'AI Code',
-    title: '电脑硬件信息可视化 · 已上线',
+    title: '电脑硬件信息可视化',
     desc: '基于 Three.js 的电脑硬件信息可视化页面：CPU / GPU / 内存与 FPS 实时监控面板，配合可拖拽的 3D 像素地球联动展示。整个页面由 AI 编程完成，已部署至 GitHub Pages 线上访问。',
     stack: ['Three.js', 'Vue 3', 'Vite', 'TypeScript'],
     links: [
@@ -63,77 +56,61 @@ const projects: Project[] = [
       { label: 'GitHub 源码', href: 'https://github.com/z-xiaofen/quantum-entanglement' },
     ],
   },
-  // ---- 待补充占位项目（后续逐个替换为真实作品） ----
   {
-    tag: '待补充',
-    title: '占位项目 ①',
-    desc: '这里将介绍我的下一个项目。计划做一款面向创作者的工具型产品，正在打磨交互与视觉细节。',
-    stack: ['Vue 2', 'Vue CLI'],
-    links: [
-      { label: 'GitHub', href: '#' },
-      { label: '在线体验', href: '#' },
-    ],
+    tag: '政务系统',
+    title: '省外办申报审批系统',
+    desc: '为省外办定制的在线申报与审批平台，覆盖出国审批、邀请函申报、文件审批等流程；基于用户角色动态渲染功能菜单与审批权限，Lazy Loading 优化使首屏加载缩短约 30%。',
+    stack: ['Vue 2', 'Webpack', 'Vuex', 'ECharts'],
+    links: [],
   },
   {
-    tag: '待补充',
-    title: '占位项目 ②',
-    desc: '占位：一个全栈练习项目，覆盖登录鉴权、文件上传与后台管理。',
-    stack: ['TypeScript', 'Node.js'],
-    links: [{ label: 'GitHub', href: '#' }],
+    tag: '能源',
+    title: '华润电力项目管理系统',
+    desc: '电力项目管理全流程平台：甘特图与任务拖拽、ECharts 进度可视化；权限切换响应从 500ms 降至 200ms，虚拟滚动使万行表格渲染从 3s 降至 500ms。',
+    stack: ['Vue 3', 'Element Plus', 'ECharts', 'Vuex'],
+    links: [],
   },
   {
-    tag: '待补充',
-    title: '占位项目 ③',
-    desc: '占位：B 端权限管理系统，覆盖 RBAC 权限、动态路由与菜单配置，沉淀通用的中后台脚手架。',
-    stack: ['Vue 2', 'Element UI', 'Node.js'],
-    links: [{ label: '演示', href: '#' }],
+    tag: '汽车',
+    title: '上海汇众汽车流程管理平台',
+    desc: '车辆生产、质检、供应链流程管理系统：动态表单渲染 + 流程可视化，ECharts 生产进度监控大屏支持实时更新，WebP + CDN 使图片加载性能提升 50%。',
+    stack: ['Vue 2', 'Vuex', 'ECharts', 'Webpack'],
+    links: [],
   },
   {
-    tag: '待补充',
-    title: '占位项目 ④',
-    desc: '占位：小程序 + H5 一体化的电商活动页模板。',
-    stack: ['Vue 3', 'Pinia'],
-    links: [{ label: 'GitHub', href: '#' }],
+    tag: '新能源',
+    title: '小鹏汽车流程管理平台',
+    desc: '基于公司流程引擎为小鹏汽车定制的过程自动化管理系统，涵盖流程设计、审批、执行、监控与数据分析；ECharts 呈现流程处理效率、审批通过率等关键指标，支持跨部门协作。',
+    stack: ['Vue 2', 'Vuex', 'ECharts', 'Webpack'],
+    links: [],
   },
   {
-    tag: '待补充',
-    title: '占位项目 ⑤',
-    desc: '占位：一个长描述的完整示例项目。这个项目会包含大量细节，从需求文档、视觉走查、动效打磨到线上数据监控，覆盖一整条完整的产品研发链路，字数较长以便在瀑布流里形成高低落差。',
-    stack: ['React', 'Vite', 'AI Coding'],
-    links: [
-      { label: 'GitHub', href: '#' },
-      { label: '在线访问', href: '#' },
-    ],
+    tag: '科研',
+    title: '之江实验室仪器管理平台',
+    desc: '实验室仪器全生命周期管理系统：预约、使用记录、维护与数据分析；模块化组件化开发缩短交付周期，打包体积减少 30%，大幅提升页面响应速度。',
+    stack: ['Vue 2', 'Vuex', 'ECharts'],
+    links: [],
   },
   {
-    tag: '待补充',
-    title: '占位项目 ⑥',
-    desc: '占位：Node.js + 数据库的完整后端项目，提供 REST API 与 WebSocket 实时推送，配套 Docker 一键部署与接口文档。',
-    stack: ['Node.js', 'PostgreSQL', 'Docker'],
-    links: [
-      { label: 'GitHub', href: '#' },
-      { label: 'API 文档', href: '#' },
-    ],
+    tag: '电网',
+    title: '线损综合信息管理系统',
+    desc: '国家电网 10kV-110kV 线损智能化管理：控制中心、数据中心、缺陷隐患中心等核心模块，电网 Canvas 绘图 + 理论线损计算，qiankun 微前端多子应用协同。',
+    stack: ['Vue 2', 'ECharts', 'Canvas', 'qiankun'],
+    links: [],
   },
   {
-    tag: '待补充',
-    title: '占位项目 ⑦',
-    desc: '占位：跨端小程序 + H5 一体化项目，覆盖商城、直播与会员体系，沉淀可复用的营销组件与埋点规范。',
-    stack: ['Vue 2', 'Vuex', 'uni-app'],
-    links: [
-      { label: '小程序码', href: '#' },
-      { label: 'GitHub', href: '#' },
-    ],
+    tag: '电网',
+    title: '技术降损可视化平台',
+    desc: '为国家电网开发的降损数据可视化平台，数据化展示各地市主网技术降损成效：ECharts 多图表动态更新 + PNG/PDF 导出，Web Worker 处理大数据渲染、避免页面卡顿。',
+    stack: ['Vue 2', 'ECharts', 'Web Worker'],
+    links: [],
   },
   {
-    tag: '待补充',
-    title: '占位项目 ⑧',
-    desc: '占位：完整的中后台服务端项目，包含登录鉴权、数据报表与消息推送，前端 Vue 2 + 后端 Node.js 一体化交付。',
-    stack: ['Vue 2', 'Node.js', 'MySQL'],
-    links: [
-      { label: '在线体验', href: '#' },
-      { label: 'GitHub', href: '#' },
-    ],
+    tag: '工具',
+    title: '线损报表自动生成工具',
+    desc: '通过后台配置 JSON 自动生成数据报表的轻量工具：负责网络请求与高级查询模块开发联调，参与报表工具设计、流程优化与测试，图表数据支持追溯。',
+    stack: ['Vue 2', 'Vuex', 'Axios'],
+    links: [],
   },
 ]
 
@@ -229,8 +206,8 @@ onBeforeUnmount(() => cancelAnimationFrame(rafTilt))
             亲手做过的东西
           </h2>
           <p class="section-sub" data-reveal style="--reveal-delay: 160ms">
-            从设计系统到中后台业务，从 Node.js 服务到小程序 —— 每个项目都是一次
-            把复杂业务稳稳落地的认真尝试。
+            从数字孪生大屏到低代码编排，从流程中台到政务系统 ——
+            每个项目都是一次把复杂业务稳稳落地的认真尝试。
           </p>
         </div>
 
@@ -303,7 +280,7 @@ onBeforeUnmount(() => cancelAnimationFrame(rafTilt))
             <span v-for="s in p.stack" :key="s" class="stack-chip">{{ s }}</span>
           </div>
 
-          <div class="card-links">
+          <div v-if="p.links && p.links.length" class="card-links">
             <a
               v-for="l in p.links"
               :key="l.label"

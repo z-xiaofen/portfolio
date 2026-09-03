@@ -1,40 +1,42 @@
 <script setup lang="ts">
 const experiences = [
   {
-    time: '2025.9 — 2026.8',
+    time: '2025.9 — 至今',
     city: '杭州',
-    role: '前端工程师',
+    role: '前端开发工程师',
     company: '东驰科技',
     points: [
-      '负责公司核心 B 端产品的迭代与维护，以 Vue 2 为主力框架，支撑多条中后台业务线',
-      '深度实践 AI Coding，用 Codex 完成需求拆解、代码生成与自测，交付效率显著提升',
-      '维护 Node.js 接口服务，联动小程序端，打通完整业务闭环',
+      '负责公司核心 B 端产品的迭代与维护，以 Vue 2/3 为主力框架，支撑多条中后台业务线',
+      '参与隧道数字孪生三维可视化（Cesium + WebSocket 帧缓存时间插值），数据到画面延迟控制在 250ms 内，保障 7×24 大屏稳定展示',
+      '常态化 AI 辅助编码：快速生成组件与工具函数、定位异常、重构重复逻辑，缩短可视化模块迭代周期',
+      '参与 H5 移动端业务，完成任务巡查移动端开发；遵循工程化规范，Git 分支管理与代码评审',
     ],
-    tags: ['Vue 2', 'B 端中后台', 'Node.js', 'AI Coding'],
+    tags: ['Vue 2/3', 'ECharts', '数字孪生', 'AI Coding'],
   },
   {
-    time: '2022.3 — 2025.8',
+    time: '2022.3 — 2025.6',
     city: '杭州',
-    role: '前端工程师',
+    role: '前端开发工程师',
     company: '微宏科技',
     points: [
-      '负责 B 端管理系统与业务支撑平台开发，Vue 2 为主，配套 Node.js 提供接口服务',
-      '沉淀团队组件库与工程规范，覆盖多条业务线的中后台页面复用',
-      '主导性能优化专项，列表页加载与交互流畅度明显提升，核心页面通过 Core Web Vitals 全绿',
-      '独立交付小程序与 H5 业务，推进前后端联调与自动化上线',
+      '负责公司核心产品前端开发与维护，使用 Vue.js / React 构建高性能、可复用组件与页面，与 UI/UX、后端紧密协作',
+      'Webpack/Vite 构建与打包优化，页面加载性能提升 30%；引入 TypeScript 增强可维护性，运行时错误减少 20%',
+      '主导前端代码重构，落地 ESLint + Prettier 统一代码风格，提升团队协作效率',
+      'ECharts 数据可视化模块开发，支撑多个 B 端业务数据的直观呈现',
     ],
-    tags: ['Vue 2', 'Node.js', '小程序', '中后台'],
+    tags: ['Vue 2', 'React', 'TypeScript', 'Webpack/Vite'],
   },
   {
     time: '2020.10 — 2022.3',
     city: '郑州',
-    role: '前端工程师',
+    role: '前端开发工程师',
     company: '郑州大方软件',
     points: [
-      '负责企业级系统前端开发，Vue 2 技术栈，独立完成多个业务模块的页面与交互',
-      '参与性能优化与代码重构，统一组件封装，提升研发效率与页面稳定性',
+      '负责国家电网线损综合信息管理系统控制中心、数据中心、缺陷隐患中心等模块的设计与开发联调',
+      '独立完成缺陷隐患中心可视化数据报表，抽离封装图表数据追溯组件，支撑业务数据链路',
+      '参与技术降损可视化平台、智能立项综合应用平台等多个电网业务项目，从设计稿到联调上线全流程跟进',
     ],
-    tags: ['Vue 2', 'JavaScript', '系统研发'],
+    tags: ['Vue 2', 'ECharts', 'Canvas'],
   },
 ]
 </script>
@@ -78,7 +80,7 @@ const experiences = [
 
       <p class="exp-note" data-reveal style="--reveal-delay: 480ms">
         <span class="mono">// 完整履历</span>
-        <a class="btn btn-primary exp-pdf" href="#" download>
+        <a class="btn btn-primary exp-pdf" href="./王浩简历.pdf" download="王浩简历.pdf">
           下载 PDF 简历
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
         </a>
