@@ -125,7 +125,7 @@ onBeforeUnmount(() => {
         </p>
 
         <div class="intro-tags">
-          <span>Vue 2/3</span><span>ECharts</span><span>TypeScript</span><span>AI Coding</span>
+          <span>Vue 2/3</span><span>ECharts</span><span>AntV X6</span><span>AI Coding</span>
         </div>
 
         <div class="intro-links">

@@ -17,7 +17,7 @@ const navLinks = [
   { id: 'hobbies', label: '爱好' },
 ]
 
-const stack = ['Vue 2/3', 'TypeScript', 'ECharts', 'AntV X6', '数据可视化', 'AI Coding']
+const stack = ['Vue 2/3', 'ECharts', 'AntV X6', '数据可视化', 'Vite/Webpack', 'AI Coding']
 
 const socials = [
   {

@@ -11,7 +11,6 @@ const tools = [
   'Vue 3',
   'Vuex',
   'Pinia',
-  'TypeScript',
   'ECharts',
   'AntV X6',
   'Webpack',

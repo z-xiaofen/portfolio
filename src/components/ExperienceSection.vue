@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const experiences = [
   {
-    time: '2025.9 — 至今',
+    time: '2025.9 — 2026.8',
     city: '杭州',
     role: '前端开发工程师',
     company: '东驰科技',
@@ -14,7 +14,7 @@ const experiences = [
     tags: ['Vue 2/3', 'ECharts', '数字孪生', 'AI Coding'],
   },
   {
-    time: '2022.3 — 2025.6',
+    time: '2022.3 — 2025.7',
     city: '杭州',
     role: '前端开发工程师',
     company: '微宏科技',
@@ -79,11 +79,7 @@ const experiences = [
       </div>
 
       <p class="exp-note" data-reveal style="--reveal-delay: 480ms">
-        <span class="mono">// 完整履历</span>
-        <a class="btn btn-primary exp-pdf" href="./王浩简历.pdf" download="王浩简历.pdf">
-          下载 PDF 简历
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        </a>
+        <span class="mono">// 完整履历</span>可联系我索取 PDF 在线版本
       </p>
     </div>
   </section>
@@ -266,12 +262,8 @@ const experiences = [
 }
 
 .exp-note {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  flex-wrap: wrap;
   margin-top: 40px;
+  text-align: center;
   font-size: 13px;
   color: var(--text-faint);
 }
@@ -279,11 +271,6 @@ const experiences = [
 .exp-note .mono {
   font-family: var(--mono);
   color: var(--text-dim);
-}
-
-.exp-pdf {
-  padding: 10px 20px;
-  font-size: 13.5px;
 }
 
 /* ---- 移动端：线靠左、卡全宽 ---- */
